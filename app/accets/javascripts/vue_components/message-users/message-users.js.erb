@@ -1,0 +1,75 @@
+// = depend_on "./_template.html"
+Vue.component('<%= File.basename(__FILE__, ".js.erb") %>', {
+  template: "<%= File.read(File.join(File.dirname(__FILE__), '_template.html')).inspect.slice(1..-2)%>",
+  props: {
+    item: {
+      type: Object
+    },
+    rel_items_name: {
+      type: String
+    },
+    index_path: {
+      type: String
+    },
+    common_rel_items: {
+      type: Array,
+      default: () => []
+    },
+    common_selected_ids: {
+      type: Object,
+      default: () => {}
+    },
+  },
+  data: function() {
+    return {
+      sending: false,
+      params: {},
+      text_for_search: null,
+      filter_tags: [],
+    }
+  },
+  methods: {
+    itemSelected: function (item_id) {
+      return;
+    },
+    itemRemoved: function(value){
+      return;
+    },
+    saveItems: function () {
+      var self = this
+      var params = {}
+      params['item_id'] = self.item.id
+      params['common_selected_ids'] = self.common_selected_ids
+
+      axios.put(this.item_path, {
+        item: params
+      })
+      .then(function (response) {
+        window.location.reload();
+      })
+    },
+    cancelItems: function(){
+      var self = this
+      var params = {}
+      params['id'] = self.item.id
+      axios.delete(this.item_path, {
+        item: params
+      }).then(function(){
+        window.location.reload();
+      })
+    },
+    searchText: function () {
+      var self = this
+      self.filter_tags = []
+      if (self.text_for_search != null) 
+      {
+         self.filter_tags.push(self.text_for_search)
+      }
+    }
+},
+  computed: {
+    item_path: function() {
+      return this.index_path + '/' + this.item.id
+    }
+  }
+});

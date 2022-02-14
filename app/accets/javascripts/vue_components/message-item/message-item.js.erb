@@ -1,0 +1,47 @@
+// = depend_on "./_template.html"
+Vue.component('<%= File.basename(__FILE__, ".js.erb") %>', {
+    template: "<%= File.read(File.join(File.dirname(__FILE__), '_template.html')).inspect.slice(1..-2)%>",
+    props: ['item', 'global_should_expand'],
+    data: function(){
+        return {
+            message: this.item,
+            elem_should_expand: false
+        }
+    },
+    computed:{
+        should_expand: function() {
+            return (this.elem_should_expand || this.global_should_expand )
+        }
+    },
+    methods:{
+        formatDate: function(dateString){
+            var date = new Date(dateString);
+            return date.toLocaleDateString("ru", {month: 'long', year: 'numeric', day: 'numeric' })
+        },
+        toggle: function(){ this.elem_should_expand = !this.elem_should_expand },
+        sendMessage: function() {
+            var send_mes_id = this.message.id;
+            axios.get('/messages_users/new?message_id=' + send_mes_id)
+                .then( function( response ) {
+                    app.alert_message = {
+                        type: 'success',
+                        message: response.data.message
+                    };
+                })
+                .catch( function( error ) {
+                    app.alert_message = {
+                        type: 'warning',
+                        message: response.data.message
+                    };
+                });
+        },
+        deleteMessage: function(){
+            var del_mes_id = this.message.id;
+            var self = this
+            axios.delete('messages_path' + '/' + del_mes_id )
+                .then( function( response ) {
+                    self.$emit('remove-item', del_mes_id)
+                })
+        }
+    }
+})

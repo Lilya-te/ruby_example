@@ -1,0 +1,14 @@
+// = depend_on "./_template.html"
+Vue.component('<%= File.basename(__FILE__, ".js.erb") %>', {
+  template: "<%= File.read(File.join(File.dirname(__FILE__), '_template.html')).inspect.slice(1..-2)%>",
+  props: ['messages'],
+  data: function() {
+    return {
+      should_expand: false,
+      alert_message: {
+        type: null,
+        message: null
+      }
+    }
+  }
+})

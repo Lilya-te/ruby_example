@@ -1,0 +1,13 @@
+<div class='container postion_relative'>
+  <a :href='getRailsPath("new_message_path")' class='add_message_button'>Создать новое сообщение</a>
+
+  <label class='toggle-checkbox' style="cursor: pointer;">
+    <input type='checkbox' v-model='should_expand' hidden> Показать подробнее все сообщения
+  </label>
+
+  <message-item
+    v-for="message in messages"
+    :global_should_expand='should_expand'
+    :message='message'
+  ></message-item>
+</div>

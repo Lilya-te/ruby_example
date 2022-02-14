@@ -1,0 +1,29 @@
+<div class='config-relation'>
+
+<br>
+  <input id="search" v-model="text_for_search" @keyup="searchText" placeholder="поиск" style="border: 0; border-bottom: 3px solid #27b4f6  ; outline: none;">
+  <template v-for='common_rel_item in common_rel_items'>
+    <h5>{{common_rel_item["head"]}}:</h5>
+    <config-relation 
+      :rel_items='common_rel_item["rel_items"]'
+      :user_role='common_rel_item["user_role"]'
+      :rel_selected_item_ids='common_selected_ids[common_rel_item["selected_ids"]]'
+      :subset_items='common_rel_item["subset_items"]'
+      :filter_tags='filter_tags'
+      :save_item='false'
+      :automatic_save='false'
+      item_component_name='simple-item'
+      index_path='messages_users_path'
+      rel_items_name='messages_users_ids'
+      v-on:item-selected='itemSelected'
+      v-on:item-removed='itemRemoved'
+      list_for_select
+    >
+    </config-relation>
+    
+
+  </template>
+  <button class='btn btn-success config-relation__save-button' style='width: 50%; right: 0px; left: auto;' @click='saveItems'>Направить</button>
+  <button class='btn btn-warning config-relation__save-button' style='width: 50%; left: 0px; right: auto;' @click='cancelItems'>Отменить</button>
+  
+</div>

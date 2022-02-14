@@ -1,0 +1,29 @@
+<div class='message-item'>
+    <div class='message-item__info d-flex justify-content-between'>
+        <div class='message-item__id' @click="toggle"> {{ message.id }} </div>
+        <div class='message-item__type' @click="toggle"> {{ message.mes_type }} </div>
+        <div class='message-item__icons d-flex'>
+            <a class='message-item__icon' :href='getRailsPath("new_messages_user_path") + "?message_id=" + message.id'>
+                <i class="fas fa-location-arrow"></i>
+            </a>
+            <a class='message-item__icon' :href='getRailsPath("messages_path") + "/" + message.id + "/edit" '>
+                <i class="fas fa-pencil-alt"></i>
+            </a>
+            <div class='message-item__icon' @click='deleteMessage'>
+                <i class="fas fa-trash-alt"></i>
+            </div>
+        </div>
+
+        <div class='message-item__date' @click="toggle">
+            {{ formatDate(this.message.start_date) }} - {{ formatDate(this.message.end_date) }}
+        </div>
+    </div>
+
+    <div class='message-item__header-ru'>{{ message.header_ru }}</div>
+    <div class='message-item__content-ru' v-html="message.text_ru" v-show="should_expand"></div>
+    <div class='message-item__header-en' v-show="should_expand">
+        {{ message.header_en }}
+    </div>
+    <div class='message-item__content-en' v-html="message.text_en" v-show="should_expand"></div>
+
+</div>
